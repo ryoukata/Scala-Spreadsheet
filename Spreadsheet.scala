@@ -1,5 +1,6 @@
 // スプレッドシートの定義
 import swing._
+import event._
 
 /**
 * height, widthはセル数を表す
@@ -26,6 +27,13 @@ class Spreadsheet(val height: Int, val width: Int) extends ScrollPane {
     def userData(row: Int, column: Int): String = {
       val v = this(row, column)
       if(v == null) "" else v.toString
+    }
+
+    reactions += {
+      case TableUpdated(table, rows, column) =>
+        for (row <- rows)
+          cells(row)(column).formula =
+            FormulaParsers.parse(userData(row, column))
     }
   }
 
