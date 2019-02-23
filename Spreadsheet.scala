@@ -34,7 +34,12 @@ class Spreadsheet(val height: Int, val width: Int) extends ScrollPane {
         for (row <- rows)
           cells(row)(column).formula =
             FormulaParsers.parse(userData(row, column))
+
+      case ValueChanged(cell) =>                        // イベントが通知されると、対応するセルにupdateCellメソッドを呼び出し、再描画を要求
+        updateCell(cell.row, cell.column)
     }
+
+    for (row <- cells; cell <- row) listenTo(cell)      // すべてのセルにイベントの購読を登録
   }
 
   // 行番号のヘッダー
