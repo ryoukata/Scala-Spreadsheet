@@ -1,10 +1,14 @@
 // セルの座標位置を保持するモデルクラス
-class Model(val height: Int, val width: Int) {
+class Model(val height: Int, val width: Int) extends Evaluator with Arithmetic {
   case class Cell(row: Int, column: Int) {
     var formula: Formula = Empty                      // スプレッドシートにパーサを統合
-    override def toString = formula.toString
+    def value = evaluate(formula)
+    override def toString = formula match {
+      case Textual(s) => s
+      case _  => value.toString
+    }
   }
-  
+
   val cells = Array.ofDim[Cell](height, width)
 
   for (i <- 0 until height; j <- 0 until width)
