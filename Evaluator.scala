@@ -1,4 +1,4 @@
-// 数式を評価するためのクラス
+// 数式を評価するためのトレイト（Modelクラスに継承される）
 trait Evaluator { this: Model =>
 
   // 評価するメソッド
@@ -41,5 +41,5 @@ trait Evaluator { this: Model =>
 
       case _ => List()
     }
-    
+
 }
